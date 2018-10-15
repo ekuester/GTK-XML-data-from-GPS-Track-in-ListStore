@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<gpx>
+  <trk>
+    <name>2012-11-14 09:57:20</name>
+    <extensions>
+      <area showArea="no" areaDistance="0.000000"/>
+      <directionArrows showDirectionArrows="yes"/>
+      <sync syncPhotosOniPhone="no"/>
+      <timezone offset="60"/>
+    </extensions>
+    <trkseg>
+      <trkpt lat="51.30887235519598" lon="6.595192467799964">
+        <ele>29.93182373046875</ele>
+        <time>2012-11-14T09:17:41Z</time>
+        <extensions>
+          <speed>15.88389816914975</speed>
+          <length>0.008501878652107393</length>
+        </extensions>
+      </trkpt>
+      <trkpt lat="51.30883484617929" lon="6.59517176449913">
+        <ele>30.09716796875</ele>
+        <time>2012-11-14T09:17:42Z</time>
+        <extensions>
+          <speed>15.86182185803758</speed>
+          <length>0.00441219393587493</length>
+        </extensions>
+      </trkpt>
+   </trkseg>
+  </trk>
+</gpx>
