@@ -17,10 +17,11 @@ During trips by foot, bicycle or car I record the covered distance on my Apple i
 &nbsp; <https://mytracks4mac.info/index.php/de/> (german)</br>
 The obtained GPX files are then transferred to my personal computer to deal with further. To read in the file correctly into the program, you must do some changes:
  - delete the namespace prefix inside the data file and make a backup</br>
-&nbsp; $ sed -e 's/mytracks://g' -i.backup gpxtrack-0.gpx
- - delete the attributes of the gpx node</br>
-&nbsp; $ sed -e 's/\(<gpx\).*\(><trk>\)/\1\2/' -i gpxtrack-0.gpx
-
+&nbsp; `$ sed -e 's/mytracks://g' -i.backup gpxtrack-0.gpx`
+ - delete the attributes of the gpx node (complex regular expression code for sed)</br>
+&nbsp; `$ sed -e ':a;N;$!ba;s|\(.*<gpx\).*\(<trk>.*\)|\1>\2|' -i gpxtrack-0.gpx`</br>
+&nbsp; the prefix `:a;N;$!ba;` is for adding of eventually existing linefeeds to the pattern space
+ 
 Usage: The program is mostly self explaining. On the toolbar at top of the window you will find buttons for opening a xml file, leaving the program and getting info about. After opening a xml file the contained track points are displayed in a table together with the calculated speed between two points. The total covered distance is shown at the bottom of the window. Erasing and/or inserting additional points should not be difficult to implant just as storing of the modified file.
 
 Simplified example of a xml file with GPS track data:<br/>
