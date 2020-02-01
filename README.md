@@ -12,10 +12,10 @@ Since I switched from macOS to Fedora Linux (for what reasons ever) I had to cha
 
 I wrote this program to become familiar with the C++ language, especially the GTK-API under the gtkmm wrapper and to get a feeling how to display different widgets on the screen. For reading of XML files I use the libxml++ 3.0 library, which integrates itself trouble-free into the C++ environment via the pkgconfig method. Take the whole as example for handling treeviews on liststore base and reading of xml files under GTK+.
 
-During trips by foot, bicycle or car I record the covered distance on my Apple iPhone or iPad with the excellent App <b>myTracks</b> by Dirk Stichling. Find it at <br/>
-&nbsp; <https://mytracks4mac.info/index.php/en/> (english)</br>
-&nbsp; <https://mytracks4mac.info/index.php/de/> (german)</br>
-The obtained GPX files are then transferred to my personal computer to deal with further. To read in the file correctly into the program, you must do some changes:
+During trips by foot, bicycle or car I record the covered distance on my Apple iPhone or iPad with the excellent App <b>myTracks</b> by Dirk Stichling. Find more informations at <br/>
+&nbsp; <https://www.mytracks4mac.info/index.php/en/> (english)</br>
+&nbsp; <https://www.mytracks4mac.info/index.php/de/> (german)</br>
+The obtained GPX files are extracted from the backup files made by iTunes under macOS or Windows and then transferred to my personal computer for dealing with further. To read in the file correctly into the program, you must do some changes:
  - delete the namespace prefix inside the data file and make a backup</br>
 &nbsp; `$ sed -e 's/mytracks://g' -i.backup gpxtrack-0.gpx`
  - delete the attributes of the gpx node (complex regular expression code for sed)</br>
