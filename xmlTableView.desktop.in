@@ -1,0 +1,13 @@
+[Desktop Entry]
+Type=Application
+Version=1.1
+Name=XML Table View
+Name[de]=XML Tabellenanzeige
+Comment=XML Parser for GPX files
+Comment[de]=Werkzeug für GPX-Dateien
+Exec=gnome-terminal --geometry=16x5 --hide-menubar --working-directory=@pkgdatadir@ -- ./xmlTableView
+Icon=xmlTableView
+Categories=Utility;Tools
+StartupNotify=true
+Terminal=false
+

@@ -29,22 +29,23 @@ XMLTableWindow::XMLTableWindow(const Glib::RefPtr<Gtk::Application>& app)
   m_Dialog() {
     m_ContextId = m_Statusbar.get_context_id(app_title);
     set_title(app_title);
-    set_border_width(5);
-    set_default_size(640, 640);
+    set_border_width(8);
+    set_default_size(704, 672);
     add(m_VBox);
 
     t_Toolbar.set_toolbar_style(Gtk::TOOLBAR_ICONS);
-    t_ToolButtonOpen.set_tooltip_text("XML Datei öffnen");
+    t_ToolButtonOpen.set_tooltip_text(_("Open XML file"));
     t_ToolButtonOpen.signal_clicked().connect(sigc::mem_fun(*this,
         &XMLTableWindow::on_menu_file_open));
-    t_ToolButtonQuit.set_tooltip_text("Verlassen");
+    t_ToolButtonQuit.set_tooltip_text(_("Quit the program"));
     t_ToolButtonQuit.signal_clicked().connect(sigc::mem_fun(*this,
         &XMLTableWindow::on_menu_file_quit));
-    t_ToolButtonAbout.set_tooltip_text("Über das Programm");
+    t_ToolButtonAbout.set_tooltip_text(_("About this program"));
     t_ToolButtonAbout.signal_clicked().connect(sigc::mem_fun(*this,
         &XMLTableWindow::on_menu_help_about));
     t_Toolbar.append(t_ToolButtonOpen);
     t_Toolbar.append(t_ToolButtonQuit);
+    t_ToolItemSpace.set_expand(true);
     t_Toolbar.append(t_ToolItemSpace);
     t_Toolbar.append(t_ToolButtonAbout);
     m_VBox.pack_start(t_Toolbar, Gtk::PACK_SHRINK);
@@ -55,7 +56,7 @@ XMLTableWindow::XMLTableWindow(const Glib::RefPtr<Gtk::Application>& app)
     //Only show the scrollbars when they are necessary:
     m_ScrolledWindow.set_policy(Gtk::POLICY_AUTOMATIC, Gtk::POLICY_AUTOMATIC);
 
-    m_Label.set_markup("<b>Total distance:</b>");
+    m_Label.set_markup(_("<b>Total distance:</b>"));
     m_Label.set_vexpand(false);
     m_Label.set_hexpand(false);
     m_Label.set_halign(Gtk::ALIGN_START);
@@ -86,13 +87,13 @@ XMLTableWindow::XMLTableWindow(const Glib::RefPtr<Gtk::Application>& app)
     //This number will be shown with the default numeric formatting.
     m_TreeView.append_column("ID", m_Columns.m_col_id);
     // 13 digits plus decimal point
-    m_TreeView.append_column_numeric("latitude", m_Columns.m_lat_number, "%10.4f");
-    m_TreeView.append_column_numeric("longitude", m_Columns.m_lon_number, "%10.4f");
+    m_TreeView.append_column_numeric(_("latitude"), m_Columns.m_lat_number, "%10.4f");
+    m_TreeView.append_column_numeric(_("longitude"), m_Columns.m_lon_number, "%10.4f");
     // 11 digits plus decimal point
-    m_TreeView.append_column_numeric("elevation", m_Columns.m_ele_number, "%9.3f");
-    m_TreeView.append_column_numeric("time [sec]", m_Columns.m_time_number, "%d");
-    m_TreeView.append_column_numeric("distance", m_Columns.m_distance_number, "%9.3f");
-    m_TreeView.append_column_numeric("speed [km/h]", m_Columns.m_speed_number, "%9.3f");
+    m_TreeView.append_column_numeric(_("elevation"), m_Columns.m_ele_number, "%9.3f");
+    m_TreeView.append_column_numeric(_("time [sec]"), m_Columns.m_time_number, "%d");
+    m_TreeView.append_column_numeric(_("distance"), m_Columns.m_distance_number, "%9.3f");
+    m_TreeView.append_column_numeric(_("speed [km/h]"), m_Columns.m_speed_number, "%9.3f");
 /*
     //Display a progress bar instead of a decimal number:
     auto cell = Gtk::manage(new Gtk::CellRendererProgress);
@@ -115,13 +116,13 @@ XMLTableWindow::XMLTableWindow(const Glib::RefPtr<Gtk::Application>& app)
 
     m_StatusFrame.add(m_Statusbar);
     m_VBox.pack_start(m_StatusFrame, Gtk::PACK_SHRINK);
-    m_ContextId = m_Statusbar.push("Bereit", m_ContextId);
+    m_ContextId = m_Statusbar.push(_("Ready"), m_ContextId);
 
     m_Dialog.set_transient_for(*this);
     m_Dialog.set_logo(Gdk::Pixbuf::create_from_xpm_data(about));
     m_Dialog.set_program_name(app_title);
-    m_Dialog.set_version("Version 1.2.5");
-    m_Dialog.set_copyright("Copyright © 2018 Erich Küster. All rights reserved.");
+    m_Dialog.set_version("Version 1.2.6");
+    m_Dialog.set_copyright("Copyright © 2018-2021 Erich Küster. All rights reserved.");
     m_Dialog.set_comments("Gtk+: XML Application - Read XML data from GPX-Track into TableView");
     std::ifstream licenseFile("LICENSE");
     std::stringstream licenseStream;
@@ -136,7 +137,7 @@ XMLTableWindow::XMLTableWindow(const Glib::RefPtr<Gtk::Application>& app)
     m_Dialog.set_website_label("gtkmm Website - C++ Interfaces for GTK+ and GNOME");
 
     std::vector<Glib::ustring> list_authors;
-    list_authors.push_back("Erich Küster, Krefeld/Germany");
+    list_authors.push_back(_("Erich Küster, Krefeld/Germany"));
     m_Dialog.set_authors(list_authors);
 
     m_Dialog.signal_response().connect(
@@ -151,32 +152,30 @@ XMLTableWindow::~XMLTableWindow() {
 
 string XMLTableWindow::choose_xml_file() {
     // File Open Dialog
-    Gtk::FileChooserDialog dialog("Please choose a file",
-            Gtk::FileChooserAction::FILE_CHOOSER_ACTION_OPEN);
+    Gtk::FileChooserDialog dialog(_("Please choose a file"),
+        Gtk::FileChooserAction::FILE_CHOOSER_ACTION_OPEN);
     dialog.set_transient_for(*this);
 
     //Add response buttons the the dialog:
-    dialog.add_button("_Cancel", Gtk::ResponseType::RESPONSE_CANCEL);
-    dialog.add_button("_Open", Gtk::ResponseType::RESPONSE_OK);
+    dialog.add_button(_("_Cancel"), Gtk::ResponseType::RESPONSE_CANCEL);
+    dialog.add_button(_("_Open"), Gtk::ResponseType::RESPONSE_OK);
 
     //Add filters, so that only certain file types can be selected:
-/*
-    auto filter_text = Gtk::FileFilter::create();
-    filter_text->set_name("Text files");
-    filter_text->add_mime_type("text/plain");
-    dialog.add_filter(filter_text);
-*/
     auto filter_xml = Gtk::FileFilter::create();
-    filter_xml->set_name("XML files");
+    filter_xml->set_name(_("XML files"));
     filter_xml->add_mime_type("text/gpx");
     filter_xml->add_mime_type("text/xml");
     dialog.add_filter(filter_xml);
-
+    // text files
+    auto filter_text = Gtk::FileFilter::create();
+    filter_text->set_name(_("Text files"));
+    filter_text->add_mime_type("text/plain");
+    dialog.add_filter(filter_text);
+    // any files
     auto filter_any = Gtk::FileFilter::create();
-    filter_any->set_name("Any files");
+    filter_any->set_name(_("Any files"));
     filter_any->add_pattern("*");
     dialog.add_filter(filter_any);
-
     //Show the dialog and wait for a user response:
     int result = dialog.run();
 
@@ -189,12 +188,12 @@ string XMLTableWindow::choose_xml_file() {
         }
         case Gtk::ResponseType::RESPONSE_CANCEL:
         {
-            m_ContextId = m_Statusbar.push("Keine Datei ausgewählt...", m_ContextId);
+            m_ContextId = m_Statusbar.push(_("No file chosen..."), m_ContextId);
             break;
         }
         default:
         {
-            m_ContextId = m_Statusbar.push("Antwort bei Dateiauswahl so nicht erwartet,,,", m_ContextId);
+            m_ContextId = m_Statusbar.push("Unexpected response in file chooser dialog...", m_ContextId);
             break;
         }
     }
@@ -211,14 +210,13 @@ void XMLTableWindow::on_menu_file_open() {
         double totalDistance = 0.0;
         vector<Trackpoint*> trackpointItems = parse_xml_file(filename);
         stringstream itemStream;
-        itemStream << trackpointItems.size() << " Spurpunkte";
+        itemStream << trackpointItems.size() << _(" Spurpunkte");
         m_ContextId = m_Statusbar.push(itemStream.str(), m_ContextId);
         // iterate over all trackpoint objects
         for (vector<Trackpoint*>::iterator tp = trackpointItems.begin(); tp != trackpointItems.end(); ++tp) {
             // fill the TreeView's model
             Gtk::TreeModel::Row row = *(m_refTreeModel->append());
             row[m_Columns.m_col_id] = (*tp)->point;
-      
             row[m_Columns.m_lat_number] = (*tp)->latitude;
             row[m_Columns.m_lon_number] = (*tp)->longitude;
             row[m_Columns.m_ele_number] = (*tp)->elevation;
@@ -229,7 +227,7 @@ void XMLTableWindow::on_menu_file_open() {
         }
         std::stringstream totalStream;
         // change to german locale to obtain decimal comma
-        totalStream.imbue(std::locale("de_DE"));
+        totalStream.imbue(std::locale(_("en_GB")));
         totalStream << std::fixed << std::setprecision(4) << std::setw(16)
             << totalDistance << " km";
         m_Text.set_text(totalStream.str());
@@ -254,7 +252,7 @@ void XMLTableWindow::on_about_dialog_response(int response_id) {
             m_Dialog.hide();
             break;
         default:
-            m_ContextId = m_Statusbar.push("Antwort so nicht erwartet...", m_ContextId);
+            m_ContextId = m_Statusbar.push(_("Unexpected response..."), m_ContextId);
             break;
     }
 }
@@ -346,7 +344,7 @@ vector<Trackpoint*> XMLTableWindow::parse_xml_file(std::string file) {
         trackpointItems.push_back(trackpoint);
         points += 1;
     }
-    cout << "total distance: " << totalDistance << endl;
-    cout << "mytracks distance: " << trackDistance << endl;
+    cout << _("total distance: ") << totalDistance << endl;
+    cout << _("mytracks distance: ") << trackDistance << endl;
     return trackpointItems;
 }

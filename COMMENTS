@@ -1,9 +1,10 @@
-The program was written to read xml data from
-GPS-tracks recorded with the app myTracks on
-            Apples iPhone or iPad
+The program was written to read XML data from
+GPS-tracks recorded on Apples iPhone or iPad with
+the App myTracks by Dirk Stichling
+            
 It can be used without any restrictions by everybody on PCs.
-   A propagation to third parties is allowed.
+A propagation to third parties is allowed.
 
-             developed in C++
+developed in C++
 first version in Swift for macOS, now abandoned
 C++ Gnome GTK+ with gtkmm wrapper, October 2018

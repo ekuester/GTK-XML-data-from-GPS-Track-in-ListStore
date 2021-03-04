@@ -11,6 +11,7 @@
 #include <cstdlib>
 #include <ctime>
 #include <fstream>
+#include <glibmm/i18n.h>
 #include <glibmm/ustring.h>
 #include <gtkmm.h>
 #include <iomanip>

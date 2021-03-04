@@ -18,8 +18,23 @@
 
 #include "xmltablewindow.h"
 
+#ifndef NLS
+#define NLS 1
+#define PROGRAMNAME_LOCALEDIR "."
+#define GETTEXT_PACKAGE "xmlTableView"
+#endif
+
+using namespace std;
+
 int main(int argc, char *argv[])
 {
+#ifdef NLS
+	setlocale(LC_ALL, "");
+	bindtextdomain(GETTEXT_PACKAGE, PROGRAMNAME_LOCALEDIR);
+	bind_textdomain_codeset(GETTEXT_PACKAGE, "UTF-8");
+	textdomain(GETTEXT_PACKAGE);
+#endif
+
     // with german locale ustring -> double not possible (has decimal comma)
     //std::locale::global(std::locale(""));
 
